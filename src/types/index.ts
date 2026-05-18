@@ -1,0 +1,86 @@
+export interface Organization {
+  id: string
+  slug: string
+  name: string
+  logo: string
+  industry: string
+  description: string
+  website: string
+  courseCount: number
+  studentCount: number
+  rating: number
+  verified: boolean
+}
+
+export interface Instructor {
+  id: string
+  slug: string
+  name: string
+  avatar: string
+  title: string
+  bio: string
+  expertise: string[]
+  courseCount: number
+  studentCount: number
+  rating: number
+}
+
+export interface CourseBlock {
+  id: string
+  title: string
+  unitCount: number
+  durationDays: number
+}
+
+export type CourseCategory =
+  | 'Tecnología'
+  | 'Negocios'
+  | 'Diseño'
+  | 'Marketing'
+  | 'Finanzas'
+  | 'Salud'
+  | 'Educación'
+  | 'Desarrollo Personal'
+
+export interface Course {
+  id: string
+  slug: string
+  title: string
+  shortDescription: string
+  longDescription: string
+  coverImage: string
+  category: CourseCategory
+  level: 'Principiante' | 'Intermedio' | 'Avanzado'
+  price: number
+  currency: string
+  duration: string
+  rating: number
+  reviewCount: number
+  enrolledCount: number
+  organization: Organization
+  instructor: Instructor
+  blocks: CourseBlock[]
+  requirements: string[]
+  targetAudience: string[]
+  whatYouLearn: string[]
+  createdAt: string
+  featured: boolean
+}
+
+export interface Testimonial {
+  id: string
+  name: string
+  role: string
+  company: string
+  avatar: string
+  quote: string
+  rating: number
+}
+
+export interface FilterState {
+  categories: CourseCategory[]
+  levels: string[]
+  price: 'all' | 'free' | 'paid'
+  duration: string[]
+  organizations: string[]
+}
