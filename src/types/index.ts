@@ -84,3 +84,16 @@ export interface FilterState {
   duration: string[]
   organizations: string[]
 }
+
+export type UserRole = 'student' | 'organization' | 'instructor'
+
+export interface AuthUser {
+  id: string
+  name: string
+  email: string
+  role: UserRole
+  avatar?: string
+  bio?: string
+  orgSlug?: string
+  instructorSlug?: string
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { BadgeCheck } from 'lucide-react'
 import { organizations } from '../../data/organizations'
 import { courses } from '../../data/courses'
@@ -7,21 +7,14 @@ import CourseCard from '../../components/course/CourseCard'
 
 export default function OrgProfilePage() {
   const { slug } = useParams()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<'about' | 'courses'>('about')
 
   const organization = organizations.find((o) => o.slug === slug)
 
   if (!organization) {
-    return (
-      <div className="bg-[#FAF7EF] min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-[#1A1C14] mb-4">Organización no encontrada</h1>
-          <Link to="/org" className="text-[#2D4A3E] hover:underline">
-            Volver al catálogo
-          </Link>
-        </div>
-      </div>
-    )
+    navigate('/404', { replace: true })
+    return null
   }
 
   const orgCourses = courses.filter((c) => c.organization.slug === organization.slug)

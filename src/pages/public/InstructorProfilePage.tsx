@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Star, Award, BookOpen, Calendar, Globe, Mail } from 'lucide-react'
 import { instructors } from '../../data/instructors'
 import { courses } from '../../data/courses'
@@ -7,21 +7,14 @@ import CourseCard from '../../components/course/CourseCard'
 
 export default function InstructorProfilePage() {
   const { slug } = useParams()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<'courses' | 'about'>('courses')
 
   const instructor = instructors.find((i) => i.slug === slug)
 
   if (!instructor) {
-    return (
-      <div className="bg-[#FAF7EF] min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-[#1A1C14] mb-4">Instructor no encontrado</h1>
-          <a href="/instructores" className="text-[#2D4A3E] hover:underline">
-            Volver al catálogo
-          </a>
-        </div>
-      </div>
-    )
+    navigate('/404', { replace: true })
+    return null
   }
 
   const instructorCourses = courses.filter((c) => c.instructor.slug === instructor.slug)

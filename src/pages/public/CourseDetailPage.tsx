@@ -14,14 +14,8 @@ export default function CourseDetailPage() {
   const course = courses.find((c) => c.slug === slug)
 
   if (!course) {
-    return (
-      <div className="bg-[#FAF7EF] min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-[#1A1C14] mb-4">Curso no encontrado</h1>
-          <Button onClick={() => navigate('/cursos')}>Volver al catálogo</Button>
-        </div>
-      </div>
-    )
+    navigate('/404', { replace: true })
+    return null
   }
 
   const toggleBlock = (blockId: string) => {

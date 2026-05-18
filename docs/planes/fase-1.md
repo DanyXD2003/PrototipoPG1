@@ -58,6 +58,22 @@ Definir todas las rutas de la Fase 1. Usar `Routes` y `Route` de react-router-do
 *                          → NotFoundPage (página 404 simple)
 ```
 
+> ⚠️ **Orden crítico de rutas:** `/cursos/buscar` debe declararse **antes** que `/cursos/:slug` en el árbol de rutas. Si se invierte, React Router interpretará "buscar" como un slug y renderizará `CourseDetailPage` con un curso inexistente.
+
+Estructura anidada recomendada:
+```tsx
+<Route element={<PublicLayout />}>
+  <Route path="/" element={<LandingPage />} />
+  <Route path="/cursos" element={<CourseCatalogPage />} />
+  <Route path="/cursos/buscar" element={<CourseSearchPage />} />  {/* antes que :slug */}
+  <Route path="/cursos/:slug" element={<CourseDetailPage />} />
+  <Route path="/org/:slug" element={<OrgProfilePage />} />
+  <Route path="/org/:slug/cursos" element={<OrgCoursesPage />} />
+  <Route path="/instructor/:slug" element={<InstructorProfilePage />} />
+  <Route path="*" element={<NotFoundPage />} />
+</Route>
+```
+
 ### `src/App.tsx`
 Importar el router y renderizarlo. Eliminar todo el contenido de la plantilla Vite.
 
@@ -150,6 +166,22 @@ export interface Testimonial {
   quote: string
   rating: number
 }
+
+export interface FilterState {
+  categories: CourseCategory[]
+  levels: Array<'Principiante' | 'Intermedio' | 'Avanzado'>
+  price: 'all' | 'free' | 'paid'
+  duration: Array<'short' | 'medium' | 'long'>   // short <4s, medium 4-8s, long >8s
+  organizations: string[]                          // slugs de org
+}
+
+export const EMPTY_FILTERS: FilterState = {
+  categories: [],
+  levels: [],
+  price: 'all',
+  duration: [],
+  organizations: [],
+}
 ```
 
 ### `src/data/organizations.ts`
@@ -222,6 +254,8 @@ Crear **4 testimonios** — dos de estudiantes que consiguieron empleo, dos de e
 - En scroll hacia abajo: aumentar ligeramente la opacidad del fondo (`bg-[#FAF7EF]/95`)
 - Link activo: subrayado o color `--color-primary`
 - Usar `useLocation()` de react-router-dom para detectar ruta activa
+- **Menú mobile:** al hacer click en el ícono `Menu`, mostrar un panel dropdown debajo de la navbar (mismo fondo + borde) con los links de navegación apilados verticalmente. Ícono cambia a `X` cuando está abierto. Click fuera cierra el menú.
+- **Link "Organizaciones"** del navbar apunta a `/cursos` por ahora (no hay listado de orgs en Fase 1). No crear una ruta `/org` sin pantalla.
 
 ### `src/components/layout/Footer.tsx`
 
@@ -239,7 +273,7 @@ Crear **4 testimonios** — dos de estudiantes que consiguieron empleo, dos de e
 
 Todos los links son `href="#"` (placeholder — es mockup).
 
-**Bottom bar:** línea separadora + "© 2025 Nexora. Todos los derechos reservados." a la izquierda, y selector de idioma (mockup) a la derecha.
+**Bottom bar:** línea separadora + "© 2026 Nexora. Todos los derechos reservados." a la izquierda, y selector de idioma (mockup) a la derecha.
 
 ### `src/components/layout/PublicLayout.tsx`
 
@@ -699,7 +733,8 @@ Pantalla 404 simple:
 
 ## Checklist de entrega
 
-Antes de dar la fase por terminada, verificar:
+> **Revisado por Claude — 2026-05-18**
+> Bonus entregado por Minimax: `OrgCatalogPage` (`/org`) e `InstructorsCatalogPage` (`/instructores`) — no estaban en el plan pero mejoran la UX.
 
 ### Funcionalidad
 - [x] Todas las rutas navegan correctamente sin errores 404
@@ -708,6 +743,7 @@ Antes de dar la fase por terminada, verificar:
 - [x] La búsqueda filtra correctamente con el query param
 - [x] Los acordeones del temario abren y cierran
 - [x] Los tabs en perfiles cambian el contenido
+- [x] Slugs inválidos redirigen a `/404` (corregido por Claude)
 
 ### UI/UX
 - [x] Navbar flotante visible en todas las páginas públicas
@@ -715,18 +751,21 @@ Antes de dar la fase por terminada, verificar:
 - [x] No hay emojis usados como íconos (solo Lucide)
 - [x] `cursor-pointer` en todos los elementos clickeables
 - [x] Hover states con transición `duration-200` en cards, botones y links
-- [x] Responsive verificado en 375px, 768px, 1024px, 1440px
-- [x] No hay scroll horizontal en ningún breakpoint
+- [ ] Responsive verificado en 375px, 768px, 1024px, 1440px — *(verificar visualmente en browser)*
+- [ ] No hay scroll horizontal en ningún breakpoint — *(verificar visualmente)*
 
 ### Diseño
 - [x] Paleta de colores respetada (ver `docs/design.md`)
 - [x] Fuente Plus Jakarta Sans cargando correctamente
 - [x] Botones CTA en dorado `#C9A84C` con texto oscuro
-- [x] Contraste de texto suficiente (no usar `--color-text-muted` para texto importante)
-- [x] Espaciado consistente (múltiplos de 4px)
+- [x] Contraste de texto suficiente
+- [x] Espaciado consistente
 
 ### Código
 - [x] Sin errores de TypeScript
 - [x] Datos mock en `src/data/` como arrays TypeScript tipados
 - [x] No hay datos hardcodeados dentro de los componentes
-- [x] Componentes reutilizables usados consistentemente (no duplicar código)
+- [x] Componentes reutilizables usados consistentemente
+
+### Pendiente confirmar
+- [x] **Moneda de los cursos**: confirmado — usar Quetzales (`Q`). Correcto.

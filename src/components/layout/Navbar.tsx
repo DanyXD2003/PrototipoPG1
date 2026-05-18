@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Menu, X, ChevronDown, User, LayoutDashboard, LogOut } from 'lucide-react'
+import { useAuth } from '../../context/auth'
 import Button from '../ui/Button'
 
 export default function Navbar() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const { user, isLoggedIn, logout } = useAuth()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +20,22 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+    setUserMenuOpen(false)
+  }
 
   const navLinks = [
     { to: '/cursos', label: 'Explorar cursos' },
@@ -51,12 +72,60 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="outline" size="sm">
-            Iniciar sesión
-          </Button>
-          <Button variant="primary" size="sm">
-            Comenzar gratis
-          </Button>
+          {isLoggedIn && user ? (
+            <div className="relative" ref={userMenuRef}>
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 cursor-pointer hover:bg-[#F2EDE1] rounded-lg px-2 py-1 transition-colors"
+              >
+                <div className="w-8 h-8 rounded-full bg-[#2D4A3E] flex items-center justify-center text-white text-sm font-medium">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-[#1A1C14] text-sm max-w-[100px] truncate">
+                  {user.name.length > 15 ? user.name.slice(0, 15) + '...' : user.name}
+                </span>
+                <ChevronDown className="w-4 h-4 text-[#5C6355]" />
+              </button>
+
+              {userMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-56 bg-[#FAF7EF] border border-[#E8E0D0] rounded-xl shadow-lg overflow-hidden">
+                  <Link
+                    to={user.role === 'organization' ? '/org/configuracion' : '/perfil/editar'}
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-[#1A1C14] hover:bg-[#F2EDE1] cursor-pointer transition-colors"
+                  >
+                    <User className="w-4 h-4 text-[#5C6355]" />
+                    Mi perfil
+                  </Link>
+                  <Link
+                    to="/"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-[#1A1C14] hover:bg-[#F2EDE1] cursor-pointer transition-colors"
+                  >
+                    <LayoutDashboard className="w-4 h-4 text-[#5C6355]" />
+                    Dashboard
+                  </Link>
+                  <hr className="border-[#E8E0D0]" />
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 w-full cursor-pointer transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Cerrar sesión
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Button variant="outline" size="sm" onClick={() => navigate('/login')}>
+                Iniciar sesión
+              </Button>
+              <Button variant="primary" size="sm" onClick={() => navigate('/registro')}>
+                Comenzar gratis
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -86,14 +155,49 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <div className="flex flex-col gap-2 pt-2 border-t border-[#E8E0D0]">
-              <Button variant="outline" size="sm" className="w-full">
-                Iniciar sesión
-              </Button>
-              <Button variant="primary" size="sm" className="w-full">
-                Comenzar gratis
-              </Button>
-            </div>
+
+            {isLoggedIn && user ? (
+              <div className="flex flex-col gap-2 pt-2 border-t border-[#E8E0D0]">
+                <div className="flex items-center gap-3 py-2">
+                  <div className="w-10 h-10 rounded-full bg-[#2D4A3E] flex items-center justify-center text-white font-medium">
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="text-[#1A1C14] font-medium">{user.name}</span>
+                </div>
+                <Link
+                  to={user.role === 'organization' ? '/org/configuracion' : '/perfil/editar'}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 py-2 text-[#1A1C14] cursor-pointer"
+                >
+                  <User className="w-4 h-4 text-[#5C6355]" />
+                  Mi perfil
+                </Link>
+                <Link
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 py-2 text-[#1A1C14] cursor-pointer"
+                >
+                  <LayoutDashboard className="w-4 h-4 text-[#5C6355]" />
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-3 py-2 text-red-600 cursor-pointer text-left"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Cerrar sesión
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 pt-2 border-t border-[#E8E0D0]">
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/login')}>
+                  Iniciar sesión
+                </Button>
+                <Button variant="primary" size="sm" className="w-full" onClick={() => navigate('/registro')}>
+                  Comenzar gratis
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}
