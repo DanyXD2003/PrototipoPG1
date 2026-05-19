@@ -42,11 +42,11 @@ export default function CourseEnrolledPage() {
   const getStatusIndicator = (status: string) => {
     switch (status) {
       case 'active':
-        return <span className="w-2 h-2 rounded-full bg-green-500" title="Activo" />
+        return <span className="w-2 h-2 rounded-full bg-green-500" />
       case 'inactive':
-        return <span className="w-2 h-2 rounded-full bg-gray-400" title="Inactivo" />
+        return <span className="w-2 h-2 rounded-full bg-gray-400" />
       case 'completed':
-        return <Check className="w-4 h-4 text-green-500" title="Completado" />
+        return <Check className="w-4 h-4 text-green-500" />
       default:
         return null
     }

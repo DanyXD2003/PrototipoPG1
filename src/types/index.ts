@@ -179,3 +179,51 @@ export interface BlockDropoffData {
   blockTitle: string
   reachedPercent: number
 }
+
+export type CandidateAvailability = 'available' | 'open' | 'not_available'
+
+export interface CompletedCourseCredential {
+  courseSlug: string
+  courseTitle: string
+  orgName: string
+  orgSlug: string
+  completedAt: string
+  grade: number
+}
+
+export interface TalentCandidate {
+  id: string
+  username: string
+  name: string
+  avatar: string
+  title: string
+  bio: string
+  location: string
+  skills: string[]
+  availability: CandidateAvailability
+  completedCourses: CompletedCourseCredential[]
+  linkedinUrl?: string
+}
+
+export interface TalentFilters {
+  courseSlug: string
+  minGrade: number
+  completedAfter: string
+  availability: 'all' | 'available' | 'open'
+}
+
+export interface SavedCandidate {
+  id: string
+  candidate: TalentCandidate
+  savedAt: string
+  notes: string
+  status: 'to_contact' | 'in_process' | 'discarded'
+}
+
+export interface SavedSearch {
+  id: string
+  name: string
+  filters: TalentFilters
+  resultCount: number
+  lastRunAt: string
+}

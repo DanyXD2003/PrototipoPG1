@@ -4,7 +4,9 @@ import AuthLayout from '../components/layout/AuthLayout'
 import StudentLayout from '../components/layout/StudentLayout'
 import LearningLayout from '../components/layout/LearningLayout'
 import CreatorLayout from '../components/layout/CreatorLayout'
+import TalentLayout from '../components/layout/TalentLayout'
 import CreatorRoute from '../components/auth/CreatorRoute'
+import TalentRoute from '../components/auth/TalentRoute'
 import { useAuth } from '../context/auth'
 import LandingPage from '../pages/public/LandingPage'
 import CourseCatalogPage from '../pages/public/CourseCatalogPage'
@@ -44,6 +46,11 @@ import EditUnitPage from '../pages/creator/EditUnitPage'
 import CourseEnrolledPage from '../pages/creator/CourseEnrolledPage'
 import CourseCompletersPage from '../pages/creator/CourseCompletersPage'
 import CourseAnalyticsPage from '../pages/creator/CourseAnalyticsPage'
+import TalentSearchPage from '../pages/talent/TalentSearchPage'
+import CandidateProfileRecruiterPage from '../pages/talent/CandidateProfileRecruiterPage'
+import SavedCandidatesPage from '../pages/talent/SavedCandidatesPage'
+import SavedSearchesPage from '../pages/talent/SavedSearchesPage'
+import StudentPublicProfilePage from '../pages/public/StudentPublicProfilePage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isLoggedIn } = useAuth()
@@ -66,6 +73,7 @@ export default function Router() {
         <Route path="/instructores" element={<InstructorsCatalogPage />} />
         <Route path="/instructor/:slug" element={<InstructorProfilePage />} />
         <Route path="/perfil/editar" element={<ProtectedRoute><EditProfilePage /></ProtectedRoute>} />
+        <Route path="/perfil/:username" element={<StudentPublicProfilePage />} />
         <Route path="/org/configuracion" element={<ProtectedRoute><EditOrgPage /></ProtectedRoute>} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
@@ -107,6 +115,12 @@ export default function Router() {
       <Route path="/creator/cursos/:courseSlug/inscritos" element={<CreatorRoute><CreatorLayout><CourseEnrolledPage /></CreatorLayout></CreatorRoute>} />
       <Route path="/creator/cursos/:courseSlug/completadores" element={<CreatorRoute><CreatorLayout><CourseCompletersPage /></CreatorLayout></CreatorRoute>} />
       <Route path="/creator/cursos/:courseSlug/analiticas" element={<CreatorRoute><CreatorLayout><CourseAnalyticsPage /></CreatorLayout></CreatorRoute>} />
+
+      {/* Rutas de talento — TalentLayout (solo org) */}
+      <Route path="/talent/buscar" element={<TalentRoute><TalentLayout><TalentSearchPage /></TalentLayout></TalentRoute>} />
+      <Route path="/talent/candidato/:username" element={<TalentRoute><TalentLayout><CandidateProfileRecruiterPage /></TalentLayout></TalentRoute>} />
+      <Route path="/talent/guardados" element={<TalentRoute><TalentLayout><SavedCandidatesPage /></TalentLayout></TalentRoute>} />
+      <Route path="/talent/mis-busquedas" element={<TalentRoute><TalentLayout><SavedSearchesPage /></TalentLayout></TalentRoute>} />
     </Routes>
   )
 }
