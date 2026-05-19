@@ -63,14 +63,13 @@ export default function TalentSearchPage() {
   }
 
   const getDateOptions = () => {
-    const now = new Date()
-    const options = [
+    const ms = Date.now()
+    return [
       { label: 'Cualquier fecha', value: '' },
-      { label: 'Último mes', value: new Date(now.setMonth(now.getMonth() - 1)).toISOString().split('T')[0] },
-      { label: 'Últimos 3 meses', value: new Date(now.setMonth(now.getMonth() - 3)).toISOString().split('T')[0] },
-      { label: 'Último año', value: new Date(now.setFullYear(now.getFullYear() - 1)).toISOString().split('T')[0] },
+      { label: 'Último mes', value: new Date(ms - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] },
+      { label: 'Últimos 3 meses', value: new Date(ms - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] },
+      { label: 'Último año', value: new Date(ms - 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] },
     ]
-    return options
   }
 
   return (

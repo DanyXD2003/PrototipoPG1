@@ -26,12 +26,8 @@ export default function StudentPublicProfilePage() {
   const candidate = username ? getCandidateByUsername(username) : undefined
 
   if (!candidate) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-[#1A1C14] font-medium mb-4">Perfil no encontrado</p>
-        <Link to="/" className="text-[#2D4A3E] hover:text-[#4A7C59]">Volver al inicio</Link>
-      </div>
-    )
+    navigate('/404', { replace: true })
+    return null
   }
 
   const availability = getAvailabilityInfo(candidate.availability)

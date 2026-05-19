@@ -794,6 +794,21 @@ const [filters, setFilters] = useState<TalentFilters>(initialFilters)
 
 ---
 
+## Mejoras pendientes (de docs/mejoras.md)
+
+Las siguientes ideas del usuario se documentan aquí para implementarlas en fases futuras:
+
+**→ Fase 6 (Polish):**
+- **Visibilidad de cursos completados:** En el tab "Completados" de `/mis-cursos`, el estudiante puede marcar cada curso como Público o Privado. Solo los cursos marcados como públicos aparecen en `/perfil/:username`.
+- **Buscador en catálogo de organizaciones:** Agregar barra de búsqueda por nombre en `OrgCatalogPage` (`/org`).
+- **Buscador en catálogo de instructores:** Agregar barra de búsqueda por nombre en `InstructorsCatalogPage` (`/instructores`).
+
+**→ Integrar en Fase 4 (iteración):**
+- **Completadores accesibles desde el curso público:** En la página de un curso (`/cursos/:slug`), si el usuario es una org logueada, mostrar una sección "Talento que completó este curso" con link al buscador filtrado. El buscador ya tiene la funcionalidad — solo falta el punto de entrada desde la vista pública del curso.
+- **Vista de curso en panel creador:** Al abrir un curso desde la lista del creador, mostrar una vista combinada: información del curso + inscritos + completadores (ya existe en los tabs de `CourseEditNav`). Mejorar el flujo de navegación para que sea más fluido.
+
+---
+
 ## Checklist de entrega
 
 ### Funcionalidad

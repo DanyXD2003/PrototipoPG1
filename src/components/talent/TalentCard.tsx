@@ -39,11 +39,11 @@ export default function TalentCard({ candidate, isSaved, onToggleSave, highlight
   return (
     <div className="bg-white border border-[#E8E0D0] rounded-2xl p-5 hover:shadow-md hover:border-[#2D4A3E]/30 transition-all">
       <div className="flex items-start gap-4">
-        <img
-          src={candidate.avatar}
-          alt={candidate.name}
-          className="w-12 h-12 rounded-full object-cover"
-        />
+        <div className="w-12 h-12 rounded-full bg-[#2D4A3E] flex items-center justify-center shrink-0">
+          <span className="text-white font-semibold text-lg">
+            {candidate.name.charAt(0).toUpperCase()}
+          </span>
+        </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-[#1A1C14] truncate">{candidate.name}</h3>
@@ -72,19 +72,13 @@ export default function TalentCard({ candidate, isSaved, onToggleSave, highlight
           {displayCourses.map((course) => (
             <div
               key={course.courseSlug}
-              className={course.courseSlug === highlightCourseSlug ? 'bg-[#F2EDE1] rounded-lg p-2 -mx-2' : ''}
+              className={`flex items-center gap-2 ${course.courseSlug === highlightCourseSlug ? 'bg-[#F2EDE1] rounded-lg px-2 py-1 -mx-2' : ''}`}
             >
-              <div className="flex items-center gap-2">
-                <img
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(course.orgName.charAt(0))}&background=C9A84C&color=1A1C14`}
-                  alt=""
-                  className="w-5 h-5 rounded"
-                />
-                <span className="text-sm text-[#1A1C14] truncate max-w-[200px]">
-                  {course.courseTitle.length > 35 ? course.courseTitle.slice(0, 35) + '...' : course.courseTitle}
-                </span>
-                <GradeBadge grade={course.grade} />
-              </div>
+              <span className="w-2 h-2 rounded-full bg-[#C9A84C] shrink-0" />
+              <span className="text-sm text-[#1A1C14] truncate max-w-[180px]">
+                {course.courseTitle.length > 35 ? course.courseTitle.slice(0, 35) + '...' : course.courseTitle}
+              </span>
+              <GradeBadge grade={course.grade} />
             </div>
           ))}
           {extraCount > 0 && (

@@ -114,11 +114,11 @@ export default function SavedCandidatesPage() {
                       onClick={() => navigate(`/talent/candidato/${candidate.candidate.username}`)}
                       className="flex items-center gap-3 cursor-pointer hover:text-[#2D4A3E]"
                     >
-                      <img
-                        src={candidate.candidate.avatar}
-                        alt={candidate.candidate.name}
-                        className="w-8 h-8 rounded-full object-cover"
-                      />
+                      <div className="w-8 h-8 rounded-full bg-[#2D4A3E] flex items-center justify-center shrink-0">
+                        <span className="text-white font-semibold text-sm">
+                          {candidate.candidate.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
                       <div className="text-left">
                         <div className="font-medium text-[#1A1C14]">{candidate.candidate.name}</div>
                         <div className="text-sm text-[#5C6355]">{candidate.candidate.title}</div>
