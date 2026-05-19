@@ -66,7 +66,7 @@ export default function RegisterInstructorPage() {
       bio,
     }
     login(newUser)
-    navigate('/')
+    navigate('/creator/dashboard')
   }
 
   const toggleExpertise = (category: CourseCategory) => {

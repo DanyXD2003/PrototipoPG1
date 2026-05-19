@@ -54,7 +54,11 @@ export default function LoginPage() {
 
       login(foundUser)
       setIsLoading(false)
-      navigate('/dashboard')
+      if (foundUser.role === 'student') {
+        navigate('/dashboard')
+      } else {
+        navigate('/creator/dashboard')
+      }
     }, 600)
   }
 

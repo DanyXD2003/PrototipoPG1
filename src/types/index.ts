@@ -134,3 +134,48 @@ export interface ExamQuestion {
   options: string[]
   correctIndex: number
 }
+
+export type CourseStatus = 'draft' | 'published' | 'archived'
+
+export interface CreatorCourseData {
+  courseId: string
+  slug: string
+  status: CourseStatus
+  publishedAt?: string
+  totalEnrolled: number
+  totalCompleted: number
+  completionRate: number
+}
+
+export interface CreatorStudent {
+  id: string
+  name: string
+  avatar: string
+  email: string
+  enrolledAt: string
+  currentBlockTitle: string
+  currentBlockId: string
+  overallProgress: number
+  lastAccessAt: string
+  status: 'active' | 'inactive' | 'completed'
+}
+
+export interface CreatorCompleter {
+  id: string
+  name: string
+  avatar: string
+  enrolledAt: string
+  completedAt: string
+  finalGrade: number
+  timeInvestedDays: number
+}
+
+export interface AnalyticsWeek {
+  label: string
+  enrolled: number
+}
+
+export interface BlockDropoffData {
+  blockTitle: string
+  reachedPercent: number
+}

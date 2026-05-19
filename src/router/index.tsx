@@ -3,6 +3,8 @@ import PublicLayout from '../components/layout/PublicLayout'
 import AuthLayout from '../components/layout/AuthLayout'
 import StudentLayout from '../components/layout/StudentLayout'
 import LearningLayout from '../components/layout/LearningLayout'
+import CreatorLayout from '../components/layout/CreatorLayout'
+import CreatorRoute from '../components/auth/CreatorRoute'
 import { useAuth } from '../context/auth'
 import LandingPage from '../pages/public/LandingPage'
 import CourseCatalogPage from '../pages/public/CourseCatalogPage'
@@ -32,6 +34,16 @@ import BlockExamPage from '../pages/student/BlockExamPage'
 import BlockResultsPage from '../pages/student/BlockResultsPage'
 import BlockRetryPage from '../pages/student/BlockRetryPage'
 import BlockLockedPage from '../pages/student/BlockLockedPage'
+import CreatorDashboardPage from '../pages/creator/CreatorDashboardPage'
+import CreatorCoursesPage from '../pages/creator/CreatorCoursesPage'
+import CreateCoursePage from '../pages/creator/CreateCoursePage'
+import CourseBlocksPage from '../pages/creator/CourseBlocksPage'
+import EditBlockPage from '../pages/creator/EditBlockPage'
+import CourseUnitsPage from '../pages/creator/CourseUnitsPage'
+import EditUnitPage from '../pages/creator/EditUnitPage'
+import CourseEnrolledPage from '../pages/creator/CourseEnrolledPage'
+import CourseCompletersPage from '../pages/creator/CourseCompletersPage'
+import CourseAnalyticsPage from '../pages/creator/CourseAnalyticsPage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isLoggedIn } = useAuth()
@@ -83,6 +95,18 @@ export default function Router() {
         <Route path="/registro/instructor" element={<RegisterInstructorPage />} />
         <Route path="/recuperar-contrasena" element={<RecoverPasswordPage />} />
       </Route>
+
+      {/* Rutas del creador — CreatorLayout gestiona su propio Navbar */}
+      <Route path="/creator/dashboard" element={<CreatorRoute><CreatorLayout><CreatorDashboardPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos" element={<CreatorRoute><CreatorLayout><CreatorCoursesPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/nuevo" element={<CreatorRoute><CreatorLayout><CreateCoursePage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/:courseSlug/bloques" element={<CreatorRoute><CreatorLayout><CourseBlocksPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/:courseSlug/bloques/:bloqueId/editar" element={<CreatorRoute><CreatorLayout><EditBlockPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/:courseSlug/bloques/:bloqueId/unidades" element={<CreatorRoute><CreatorLayout><CourseUnitsPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/:courseSlug/bloques/:bloqueId/unidades/:unidadId" element={<CreatorRoute><CreatorLayout><EditUnitPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/:courseSlug/inscritos" element={<CreatorRoute><CreatorLayout><CourseEnrolledPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/:courseSlug/completadores" element={<CreatorRoute><CreatorLayout><CourseCompletersPage /></CreatorLayout></CreatorRoute>} />
+      <Route path="/creator/cursos/:courseSlug/analiticas" element={<CreatorRoute><CreatorLayout><CourseAnalyticsPage /></CreatorLayout></CreatorRoute>} />
     </Routes>
   )
 }

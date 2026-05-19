@@ -61,7 +61,7 @@ export default function RegisterOrgPage() {
       orgSlug: orgName.toLowerCase().replace(/\s+/g, '-'),
     }
     login(newUser)
-    navigate('/')
+    navigate('/creator/dashboard')
   }
 
   return (

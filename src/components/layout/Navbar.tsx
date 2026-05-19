@@ -98,7 +98,7 @@ export default function Navbar() {
                     Mi perfil
                   </Link>
                   <Link
-                    to="/dashboard"
+                    to={user.role === 'student' ? '/dashboard' : '/creator/dashboard'}
                     onClick={() => setUserMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 text-[#1A1C14] hover:bg-[#F2EDE1] cursor-pointer transition-colors"
                   >
@@ -173,7 +173,7 @@ export default function Navbar() {
                   Mi perfil
                 </Link>
                 <Link
-                  to="/dashboard"
+                  to={user.role === 'student' ? '/dashboard' : '/creator/dashboard'}
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-3 py-2 text-[#1A1C14] cursor-pointer"
                 >
