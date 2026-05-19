@@ -24,6 +24,13 @@ export const mockUsers: AuthUser[] = [
     bio: 'Arquitecto de software con 15 años de experiencia.',
     instructorSlug: 'carlos-mendoza',
   },
+  {
+    id: 'user-admin',
+    name: 'Admin Nexora',
+    email: 'admin@nexora.com',
+    role: 'admin',
+    bio: 'Administrador de la plataforma Nexora.',
+  },
 ]
 
 export const DEMO_PASSWORD = 'password'

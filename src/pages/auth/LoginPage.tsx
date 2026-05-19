@@ -15,9 +15,10 @@ export default function LoginPage() {
   const [error, setError] = useState('')
 
   const demoAccounts = [
-    { email: 'estudiante@nexora.com', label: 'estudiante@nexora.com' },
-    { email: 'empresa@techcorp.com', label: 'empresa@techcorp.com' },
-    { email: 'instructor@nexora.com', label: 'instructor@nexora.com' },
+    { email: 'estudiante@nexora.com', label: 'Estudiante' },
+    { email: 'empresa@techcorp.com', label: 'Organización' },
+    { email: 'instructor@nexora.com', label: 'Instructor' },
+    { email: 'admin@nexora.com', label: 'Admin' },
   ]
 
   const handleSubmit = async (e: React.FormEvent) => {

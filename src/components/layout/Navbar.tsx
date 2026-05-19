@@ -102,6 +102,7 @@ export default function Navbar() {
 
               {userMenuOpen && (
                 <div className="absolute right-0 top-full mt-2 w-56 bg-[#FAF7EF] border border-[#E8E0D0] rounded-xl shadow-lg overflow-hidden">
+                  {user.role !== 'admin' && (
                   <Link
                     to={user.role === 'organization' ? '/org/configuracion' : '/perfil/editar'}
                     onClick={() => setUserMenuOpen(false)}
@@ -110,8 +111,13 @@ export default function Navbar() {
                     <User className="w-4 h-4 text-[#5C6355]" />
                     Mi perfil
                   </Link>
+                  )}
                   <Link
-                    to={user.role === 'student' ? '/dashboard' : '/creator/dashboard'}
+to={
+                      user.role === 'student' ? '/dashboard'
+                      : user.role === 'admin' ? '/admin/dashboard'
+                      : '/creator/dashboard'
+                    }
                     onClick={() => setUserMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 text-[#1A1C14] hover:bg-[#F2EDE1] cursor-pointer transition-colors"
                   >
@@ -194,6 +200,7 @@ export default function Navbar() {
                   <Bell className="w-4 h-4 text-[#5C6355]" />
                   Notificaciones {getUnreadCount() > 0 && `(${getUnreadCount()})`}
                 </Link>
+                {user.role !== 'admin' && (
                 <Link
                   to={user.role === 'organization' ? '/org/configuracion' : '/perfil/editar'}
                   onClick={() => setMobileMenuOpen(false)}
@@ -202,8 +209,13 @@ export default function Navbar() {
                   <User className="w-4 h-4 text-[#5C6355]" />
                   Mi perfil
                 </Link>
+                )}
                 <Link
-                  to={user.role === 'student' ? '/dashboard' : '/creator/dashboard'}
+                  to={
+                    user.role === 'student' ? '/dashboard'
+                    : user.role === 'admin' ? '/admin/dashboard'
+                    : '/creator/dashboard'
+                  }
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-3 py-2 text-[#1A1C14] cursor-pointer"
                 >

@@ -55,6 +55,12 @@ import NotificationsPage from '../pages/notifications/NotificationsPage'
 import SettingsAccountPage from '../pages/settings/SettingsAccountPage'
 import SettingsSecurityPage from '../pages/settings/SettingsSecurityPage'
 import SettingsNotificationsPage from '../pages/settings/SettingsNotificationsPage'
+import AdminLayout from '../components/layout/AdminLayout'
+import AdminDashboardPage from '../pages/admin/AdminDashboardPage'
+import AdminUsersPage from '../pages/admin/AdminUsersPage'
+import AdminOrgsPage from '../pages/admin/AdminOrgsPage'
+import AdminCoursesPage from '../pages/admin/AdminCoursesPage'
+import AdminReportsPage from '../pages/admin/AdminReportsPage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isLoggedIn } = useAuth()
@@ -129,6 +135,13 @@ export default function Router() {
       <Route path="/talent/candidato/:username" element={<TalentRoute><TalentLayout><CandidateProfileRecruiterPage /></TalentLayout></TalentRoute>} />
       <Route path="/talent/guardados" element={<TalentRoute><TalentLayout><SavedCandidatesPage /></TalentLayout></TalentRoute>} />
       <Route path="/talent/mis-busquedas" element={<TalentRoute><TalentLayout><SavedSearchesPage /></TalentLayout></TalentRoute>} />
+
+      {/* Rutas de administración — AdminLayout */}
+      <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboardPage /></AdminLayout>} />
+      <Route path="/admin/usuarios" element={<AdminLayout><AdminUsersPage /></AdminLayout>} />
+      <Route path="/admin/organizaciones" element={<AdminLayout><AdminOrgsPage /></AdminLayout>} />
+      <Route path="/admin/cursos" element={<AdminLayout><AdminCoursesPage /></AdminLayout>} />
+      <Route path="/admin/reportes" element={<AdminLayout><AdminReportsPage /></AdminLayout>} />
     </Routes>
   )
 }

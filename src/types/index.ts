@@ -85,7 +85,7 @@ export interface FilterState {
   organizations: string[]
 }
 
-export type UserRole = 'student' | 'organization' | 'instructor'
+export type UserRole = 'student' | 'organization' | 'instructor' | 'admin'
 
 export interface AuthUser {
   id: string
@@ -262,4 +262,60 @@ export interface NotificationPreferences {
 export interface CourseVisibility {
   courseId: string
   isPublic: boolean
+}
+
+export type AdminUserStatus = 'active' | 'suspended'
+
+export interface AdminUser {
+  id: string
+  name: string
+  email: string
+  role: UserRole | 'admin'
+  status: AdminUserStatus
+  registeredAt: string
+  lastLoginAt: string
+  coursesEnrolled?: number
+}
+
+export type OrgAdminStatus = 'verified' | 'pending' | 'suspended'
+
+export interface AdminOrg {
+  id: string
+  name: string
+  slug: string
+  industry: string
+  courseCount: number
+  studentCount: number
+  status: OrgAdminStatus
+  registeredAt: string
+  contactEmail: string
+}
+
+export type CourseAdminStatus = 'pending' | 'approved' | 'rejected'
+
+export interface AdminCourse {
+  id: string
+  slug: string
+  title: string
+  orgName: string
+  orgSlug: string
+  category: string
+  submittedAt: string
+  status: CourseAdminStatus
+  rejectionReason?: string
+  blockCount: number
+  price: number | null
+}
+
+export interface WeeklyGrowth {
+  week: string
+  users: number
+  enrollments: number
+}
+
+export interface ActivityItem {
+  id: string
+  type: 'user_registered' | 'course_published' | 'org_joined' | 'course_completed'
+  text: string
+  time: string
 }
