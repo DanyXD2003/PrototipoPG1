@@ -97,3 +97,40 @@ export interface AuthUser {
   orgSlug?: string
   instructorSlug?: string
 }
+
+export type BlockStatus =
+  | 'not_started'
+  | 'active'
+  | 'completed'
+  | 'failed'
+  | 'expired'
+  | 'locked'
+
+export interface BlockProgress {
+  blockId: string
+  status: BlockStatus
+  grade?: number
+  startedAt?: string
+  expiresAt?: string
+  completedAt?: string
+  unitsCompleted: number
+}
+
+export interface Enrollment {
+  id: string
+  userId: string
+  course: Course
+  enrolledAt: string
+  blocks: BlockProgress[]
+  overallProgress: number
+  completed: boolean
+  completedAt?: string
+  finalGrade?: number
+}
+
+export interface ExamQuestion {
+  id: string
+  question: string
+  options: string[]
+  correctIndex: number
+}

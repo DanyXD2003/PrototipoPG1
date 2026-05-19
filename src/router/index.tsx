@@ -1,7 +1,9 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import PublicLayout from '../components/layout/PublicLayout'
 import AuthLayout from '../components/layout/AuthLayout'
-import ProtectedRoute from '../components/auth/ProtectedRoute'
+import StudentLayout from '../components/layout/StudentLayout'
+import LearningLayout from '../components/layout/LearningLayout'
+import { useAuth } from '../context/auth'
 import LandingPage from '../pages/public/LandingPage'
 import CourseCatalogPage from '../pages/public/CourseCatalogPage'
 import CourseSearchPage from '../pages/public/CourseSearchPage'
@@ -20,10 +22,27 @@ import RegisterInstructorPage from '../pages/auth/RegisterInstructorPage'
 import RecoverPasswordPage from '../pages/auth/RecoverPasswordPage'
 import EditProfilePage from '../pages/auth/EditProfilePage'
 import EditOrgPage from '../pages/auth/EditOrgPage'
+import StudentDashboardPage from '../pages/student/StudentDashboardPage'
+import MyCoursesPage from '../pages/student/MyCoursesPage'
+import MyCertificatesPage from '../pages/student/MyCertificatesPage'
+import CourseBlockMapPage from '../pages/student/CourseBlockMapPage'
+import BlockViewPage from '../pages/student/BlockViewPage'
+import UnitPlayerPage from '../pages/student/UnitPlayerPage'
+import BlockExamPage from '../pages/student/BlockExamPage'
+import BlockResultsPage from '../pages/student/BlockResultsPage'
+import BlockRetryPage from '../pages/student/BlockRetryPage'
+import BlockLockedPage from '../pages/student/BlockLockedPage'
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isLoggedIn } = useAuth()
+  if (!isLoggedIn) return <Navigate to="/login" replace />
+  return <>{children}</>
+}
 
 export default function Router() {
   return (
     <Routes>
+      {/* Rutas públicas — Navbar flotante + Footer */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/cursos" element={<CourseCatalogPage />} />
@@ -39,6 +58,23 @@ export default function Router() {
         <Route path="*" element={<NotFoundPage />} />
       </Route>
 
+      {/* Rutas del estudiante — StudentLayout gestiona su propio Navbar (sin Footer) */}
+      <Route path="/dashboard" element={<StudentLayout><StudentDashboardPage /></StudentLayout>} />
+      <Route path="/mis-cursos" element={<StudentLayout><MyCoursesPage /></StudentLayout>} />
+      <Route path="/mis-certificados" element={<StudentLayout><MyCertificatesPage /></StudentLayout>} />
+
+      {/* Rutas de aprendizaje — LearningLayout (pantalla completa, sin Navbar flotante) */}
+      <Route element={<LearningLayout />}>
+        <Route path="/aprendizaje/:cursoSlug" element={<CourseBlockMapPage />} />
+        <Route path="/aprendizaje/:cursoSlug/bloque/:bloqueId" element={<BlockViewPage />} />
+        <Route path="/aprendizaje/:cursoSlug/bloque/:bloqueId/unidad/:unidadId" element={<UnitPlayerPage />} />
+        <Route path="/aprendizaje/:cursoSlug/bloque/:bloqueId/examen" element={<BlockExamPage />} />
+        <Route path="/aprendizaje/:cursoSlug/bloque/:bloqueId/resultados" element={<BlockResultsPage />} />
+        <Route path="/aprendizaje/:cursoSlug/bloque/:bloqueId/reintentar" element={<BlockRetryPage />} />
+        <Route path="/aprendizaje/:cursoSlug/bloque/:bloqueId/bloqueado" element={<BlockLockedPage />} />
+      </Route>
+
+      {/* Rutas de autenticación — AuthLayout (dos paneles, sin Footer) */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registro" element={<RegisterRolePage />} />

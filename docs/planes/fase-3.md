@@ -952,37 +952,44 @@ Mis certificados (2)
 
 ## Checklist de entrega
 
+> **Revisado por Claude — 2026-05-18 (2 pasadas)**
+> **Pasada 1 (6 fixes):** ProtectedRoute restaurado, LearningLayout migrado a useNavigate, navegación Anterior/Siguiente funcional, emoji 🔒 → Lucide Lock, timer del examen lee del enrollment, SVGs inline → Lucide CheckCircle/XCircle.
+> **Pasada 2 (3 fixes):** doble Navbar eliminada (rutas de StudentLayout sacadas de PublicLayout), 404 movida dentro de PublicLayout para tener navbar, sidebar "Bloque b2" → "Bloque 2".
+> **Nota arquitectónica:** Minimax implementó CourseBlockMapPage dentro de LearningLayout (no como página standalone como decía el plan). El resultado es aceptable UX — el usuario ve la sidebar del curso mientras navega el temario. Se mantiene.
+
 ### Funcionalidad
-- [ ] Login de estudiante redirige a `/dashboard`
-- [ ] Logout redirige a `/` y borra sesión
-- [ ] Dashboard muestra widget del bloque activo correctamente
-- [ ] Navegación StudentLayout: links activos, sidebar con curso activo
-- [ ] CourseBlockMapPage muestra todos los estados de bloques correctamente
-- [ ] BlockViewPage genera las unidades correctas desde el mock
-- [ ] UnitPlayer muestra contenido diferente según tipo (video/material/ejercicio)
-- [ ] Examen avanza pregunta por pregunta, calcula nota y navega a resultados
-- [ ] ResultsPage lee grade desde location.state
-- [ ] RetryPage muestra tiempo reducido correctamente
-- [ ] Rutas protegidas redirigen a `/login` si no hay sesión
-- [ ] Rutas de `/aprendizaje/*` NO muestran la Navbar flotante (usan LearningLayout)
+- [x] Login de estudiante redirige a `/dashboard`
+- [x] Logout redirige a `/` y borra sesión
+- [x] Dashboard muestra widget del bloque activo correctamente
+- [x] Navegación StudentLayout: links activos, sidebar con curso activo
+- [x] CourseBlockMapPage muestra todos los estados de bloques correctamente
+- [x] BlockViewPage genera las unidades correctas desde el mock
+- [x] UnitPlayer muestra contenido diferente según tipo (video/material/ejercicio)
+- [x] Examen avanza pregunta por pregunta, calcula nota y navega a resultados
+- [x] ResultsPage lee grade desde location.state (con fallback 75 si acceso directo)
+- [x] RetryPage muestra tiempo reducido correctamente
+- [x] Rutas protegidas redirigen a `/login` si no hay sesión (incluye /perfil/editar y /org/configuracion restaurados)
+- [x] Rutas de `/aprendizaje/*` NO muestran la Navbar flotante (usan LearningLayout propio)
+- [x] Botones Anterior/Siguiente del LearningLayout navegan correctamente entre unidades
 
 ### UI/UX
-- [ ] CountdownTimer se actualiza cada minuto, muestra urgencia < 24h
-- [ ] StudentLayout sidebar visible en desktop, simplificado en mobile
-- [ ] LearningLayout panel izquierdo muestra estructura del curso
-- [ ] GradeBadge verde/rojo según si aprobó
-- [ ] ProgressBar correctamente proporcional
-- [ ] Bloques bloqueados con opacidad reducida y sin botones de acción
-- [ ] Bloque activo visualmente destacado (borde dorado, sombra)
+- [x] CountdownTimer se actualiza cada minuto, muestra urgencia < 24h
+- [x] StudentLayout sidebar visible en desktop, simplificado en mobile
+- [x] LearningLayout panel izquierdo muestra estructura del curso
+- [x] GradeBadge verde/rojo según si aprobó
+- [x] ProgressBar correctamente proporcional
+- [x] Bloques bloqueados con opacidad reducida y sin botones de acción
+- [x] Bloque activo visualmente destacado (borde dorado, sombra)
 
 ### Diseño
-- [ ] Paleta respetada en todos los componentes nuevos
-- [ ] LearningLayout usa fondo oscuro `#1A1C14` correctamente
-- [ ] Certificados con diseño premium (gradiente verde/oro)
-- [ ] No hay emojis como íconos (solo Lucide)
+- [x] Paleta respetada en todos los componentes nuevos
+- [x] LearningLayout usa fondo oscuro `#1A1C14` correctamente
+- [x] No hay emojis como íconos (solo Lucide) — corregido en CourseBlockMapPage y BlockResultsPage
+- [ ] Certificados con diseño premium (gradiente verde/oro) — verificar visualmente
 
 ### Código
-- [ ] Sin errores de TypeScript
-- [ ] `enrollments.ts` usa los slugs correctos de `courses.ts`
-- [ ] `getUserEnrollments` y `getEnrollment` helpers usados correctamente
-- [ ] `location.state` en BlockResultsPage tiene fallback si es undefined
+- [x] Sin errores de TypeScript
+- [x] `enrollments.ts` usa los slugs correctos de `courses.ts`
+- [x] `getUserEnrollments` y `getEnrollment` helpers usados correctamente
+- [x] `location.state` en BlockResultsPage tiene fallback si es undefined
+- [x] LearningLayout usa `useNavigate()` de React Router (no window.location.href)

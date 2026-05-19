@@ -63,7 +63,7 @@ export default function RegisterStudentPage() {
       bio: '',
     }
     login(newUser)
-    navigate('/')
+    navigate('/dashboard')
   }
 
   const toggleInterest = (category: CourseCategory) => {

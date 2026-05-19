@@ -54,7 +54,7 @@ export default function LoginPage() {
 
       login(foundUser)
       setIsLoading(false)
-      navigate('/')
+      navigate('/dashboard')
     }, 600)
   }
 
