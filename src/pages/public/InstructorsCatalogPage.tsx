@@ -1,20 +1,43 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Star } from 'lucide-react'
+import { Star, Search } from 'lucide-react'
 import { instructors } from '../../data/instructors'
+import EmptyState from '../../components/ui/EmptyState'
 
 export default function InstructorsCatalogPage() {
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredInstructors = instructors.filter(inst =>
+    inst.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    inst.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    inst.expertise.some(e => e.toLowerCase().includes(searchQuery.toLowerCase()))
+  )
+
   return (
     <div className="bg-[#FAF7EF] min-h-screen">
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[#1A1C14] mb-2">Instructores</h1>
-          <p className="text-[#5C6355]">
-            Aprende de expertos reconocidos en sus respectivas industrias
-          </p>
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-[#1A1C14] mb-2">Instructores</h1>
+            <p className="text-[#5C6355]">
+              Aprende de expertos reconocidos en sus respectivas industrias
+            </p>
+          </div>
+          <div className="relative w-full md:w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C6355]" />
+            <input
+              type="text"
+              placeholder="Buscar instructor..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#E8E0D0] bg-white text-[#1A1C14] placeholder-[#5C6355] focus:outline-none focus:border-[#2D4A3E] cursor-text"
+            />
+          </div>
         </div>
 
+        {filteredInstructors.length > 0 ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {instructors.map((instructor) => (
+          {filteredInstructors.map((instructor) => (
             <Link
               key={instructor.id}
               to={`/instructor/${instructor.slug}`}
@@ -67,6 +90,13 @@ export default function InstructorsCatalogPage() {
             </Link>
           ))}
         </div>
+        ) : (
+          <EmptyState 
+            icon={Search}
+            title="Sin resultados"
+            description={`No encontramos instructores para "${searchQuery}"`}
+          />
+        )}
       </div>
     </div>
   )

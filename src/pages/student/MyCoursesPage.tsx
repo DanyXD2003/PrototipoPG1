@@ -2,14 +2,26 @@ import { useState } from 'react'
 import { useAuth } from '../../context/auth'
 import { getUserEnrollments } from '../../data/enrollments'
 import { Link } from 'react-router-dom'
+import { Eye, Lock } from 'lucide-react'
 import CountdownTimer from '../../components/learning/CountdownTimer'
 import ProgressBar from '../../components/learning/ProgressBar'
+import Toast from '../../components/ui/Toast'
 import type { BlockStatus } from '../../types'
 
 export default function MyCoursesPage() {
   const { user } = useAuth()
   const enrollments = user ? getUserEnrollments(user.id) : []
   const [activeTab, setActiveTab] = useState<'in_progress' | 'completed' | 'all'>('in_progress')
+  const [visibility, setVisibility] = useState<Record<string, boolean>>({
+    'enroll-4': true,
+  })
+  const [toast, setToast] = useState({ visible: false, message: '' })
+
+  const setVisibilityValue = (courseId: string, isPublic: boolean) => {
+    if (visibility[courseId] === isPublic) return
+    setVisibility(prev => ({ ...prev, [courseId]: isPublic }))
+    setToast({ visible: true, message: `Curso ahora ${isPublic ? 'público' : 'privado'} en tu perfil` })
+  }
 
   const filteredEnrollments = enrollments.filter(e => {
     if (activeTab === 'completed') return e.completed
@@ -132,6 +144,36 @@ export default function MyCoursesPage() {
                   </div>
                   <span className="text-sm text-[#5C6355]">{enrollment.overallProgress}%</span>
                 </div>
+
+                {enrollment.completed && (
+                  <div className="mt-3 pt-3 border-t border-[#E8E0D0]">
+                    <p className="text-xs text-[#5C6355] mb-2">Visibilidad en tu perfil:</p>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => setVisibilityValue(enrollment.id, true)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-colors ${
+                          visibility[enrollment.id]
+                            ? 'bg-[#2D4A3E] text-white'
+                            : 'bg-[#F2EDE1] text-[#5C6355] hover:bg-[#E8E0D0]'
+                        }`}
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        Público
+                      </button>
+                      <button
+                        onClick={() => setVisibilityValue(enrollment.id, false)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-colors ${
+                          !visibility[enrollment.id]
+                            ? 'bg-[#2D4A3E] text-white'
+                            : 'bg-[#F2EDE1] text-[#5C6355] hover:bg-[#E8E0D0]'
+                        }`}
+                      >
+                        <Lock className="w-3.5 h-3.5" />
+                        Privado
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="shrink-0 flex items-center">
@@ -158,6 +200,12 @@ export default function MyCoursesPage() {
           No hay cursos en esta categoría.
         </div>
       )}
+
+      <Toast
+        visible={toast.visible}
+        message={toast.message}
+        onHide={() => setToast({ visible: false, message: '' })}
+      />
     </div>
   )
 }

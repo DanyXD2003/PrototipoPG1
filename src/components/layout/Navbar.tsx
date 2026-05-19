@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Menu, X, ChevronDown, User, LayoutDashboard, LogOut } from 'lucide-react'
+import { Menu, X, ChevronDown, User, LayoutDashboard, LogOut, Bell, Settings } from 'lucide-react'
 import { useAuth } from '../../context/auth'
 import Button from '../ui/Button'
+import { getUnreadCount } from '../../data/notificationsData'
 
 export default function Navbar() {
   const location = useLocation()
@@ -73,7 +74,19 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-3">
           {isLoggedIn && user ? (
-            <div className="relative" ref={userMenuRef}>
+            <>
+              <Link
+                to="/notificaciones"
+                className="relative p-2 text-[#5C6355] hover:text-[#2D4A3E] transition-colors cursor-pointer"
+              >
+                <Bell className="w-5 h-5" />
+                {getUnreadCount() > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {getUnreadCount()}
+                  </span>
+                )}
+              </Link>
+              <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-2 cursor-pointer hover:bg-[#F2EDE1] rounded-lg px-2 py-1 transition-colors"
@@ -105,6 +118,14 @@ export default function Navbar() {
                     <LayoutDashboard className="w-4 h-4 text-[#5C6355]" />
                     Dashboard
                   </Link>
+                  <Link
+                    to="/configuracion"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-[#1A1C14] hover:bg-[#F2EDE1] cursor-pointer transition-colors"
+                  >
+                    <Settings className="w-4 h-4 text-[#5C6355]" />
+                    Configuración
+                  </Link>
                   <hr className="border-[#E8E0D0]" />
                   <button
                     onClick={handleLogout}
@@ -116,6 +137,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+            </>
           ) : (
             <>
               <Button variant="outline" size="sm" onClick={() => navigate('/login')}>
@@ -164,6 +186,14 @@ export default function Navbar() {
                   </div>
                   <span className="text-[#1A1C14] font-medium">{user.name}</span>
                 </div>
+                <Link
+                  to="/notificaciones"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 py-2 text-[#1A1C14] cursor-pointer"
+                >
+                  <Bell className="w-4 h-4 text-[#5C6355]" />
+                  Notificaciones {getUnreadCount() > 0 && `(${getUnreadCount()})`}
+                </Link>
                 <Link
                   to={user.role === 'organization' ? '/org/configuracion' : '/perfil/editar'}
                   onClick={() => setMobileMenuOpen(false)}

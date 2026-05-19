@@ -51,6 +51,10 @@ import CandidateProfileRecruiterPage from '../pages/talent/CandidateProfileRecru
 import SavedCandidatesPage from '../pages/talent/SavedCandidatesPage'
 import SavedSearchesPage from '../pages/talent/SavedSearchesPage'
 import StudentPublicProfilePage from '../pages/public/StudentPublicProfilePage'
+import NotificationsPage from '../pages/notifications/NotificationsPage'
+import SettingsAccountPage from '../pages/settings/SettingsAccountPage'
+import SettingsSecurityPage from '../pages/settings/SettingsSecurityPage'
+import SettingsNotificationsPage from '../pages/settings/SettingsNotificationsPage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isLoggedIn } = useAuth()
@@ -75,6 +79,10 @@ export default function Router() {
         <Route path="/perfil/editar" element={<ProtectedRoute><EditProfilePage /></ProtectedRoute>} />
         <Route path="/perfil/:username" element={<StudentPublicProfilePage />} />
         <Route path="/org/configuracion" element={<ProtectedRoute><EditOrgPage /></ProtectedRoute>} />
+        <Route path="/notificaciones" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+        <Route path="/configuracion" element={<ProtectedRoute><SettingsAccountPage /></ProtectedRoute>} />
+        <Route path="/configuracion/seguridad" element={<ProtectedRoute><SettingsSecurityPage /></ProtectedRoute>} />
+        <Route path="/configuracion/notificaciones" element={<ProtectedRoute><SettingsNotificationsPage /></ProtectedRoute>} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
 

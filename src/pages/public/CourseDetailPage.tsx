@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ChevronRight, PlayCircle, FileText, Code2, Check } from 'lucide-react'
+import { ChevronRight, PlayCircle, FileText, Code2, Check, Building2 } from 'lucide-react'
 import { courses } from '../../data/courses'
+import { useAuth } from '../../context/auth'
 import Badge from '../../components/ui/Badge'
 import RatingStars from '../../components/ui/RatingStars'
 import Button from '../../components/ui/Button'
+import type { TalentFilters } from '../../types'
 
 export default function CourseDetailPage() {
   const { slug } = useParams()
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [expandedBlocks, setExpandedBlocks] = useState<string[]>([])
 
   const course = courses.find((c) => c.slug === slug)
@@ -16,6 +19,16 @@ export default function CourseDetailPage() {
   if (!course) {
     navigate('/404', { replace: true })
     return null
+  }
+
+  const handleSearchTalent = () => {
+    const filters: TalentFilters = {
+      courseSlug: course.slug,
+      minGrade: 70,
+      completedAfter: '',
+      availability: 'all',
+    }
+    navigate('/talent/buscar', { state: { filters } })
   }
 
   const toggleBlock = (blockId: string) => {
@@ -170,6 +183,24 @@ export default function CourseDetailPage() {
                 ))}
               </ul>
             </section>
+
+            {user?.role === 'organization' && (
+              <section className="mt-8 p-5 bg-[#F2EDE1] border border-[#E8E0D0] rounded-xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <Building2 className="w-6 h-6 text-[#2D4A3E]" />
+                  <h3 className="font-semibold text-[#1A1C14]">¿Buscas candidatos que completaron este curso?</h3>
+                </div>
+                <p className="text-sm text-[#5C6355] mb-4">
+                  Filtra directamente quiénes completaron este curso en el mercado de talento.
+                </p>
+                <button
+                  onClick={handleSearchTalent}
+                  className="text-sm text-[#2D4A3E] border border-[#2D4A3E] px-4 py-2 rounded-lg hover:bg-[#2D4A3E] hover:text-white transition-colors cursor-pointer"
+                >
+                  Buscar candidatos →
+                </button>
+              </section>
+            )}
           </div>
 
           <div className="lg:col-span-1">

@@ -4,6 +4,7 @@ import { courses } from './courses'
 const courseMS = courses.find(c => c.slug === 'introduccion-arquitectura-microservicios')!
 const courseDX = courses.find(c => c.slug === 'diseno-experiencias-digitales')!
 const courseGH = courses.find(c => c.slug === 'growth-hacking-startups')!
+const coursePY = courses.find(c => c.slug === 'python-analisis-datos')!
 
 const daysFromNow = (n: number) =>
   new Date(Date.now() + n * 24 * 60 * 60 * 1000).toISOString()
@@ -103,6 +104,43 @@ export const enrollments: Enrollment[] = [
         blockId: 'b3',
         status: 'locked',
         unitsCompleted: 0,
+      },
+    ],
+  },
+  {
+    id: 'enroll-4',
+    userId: 'user-1',
+    course: coursePY,
+    enrolledAt: daysAgo(90),
+    overallProgress: 100,
+    completed: true,
+    blocks: [
+      {
+        blockId: 'b1',
+        status: 'completed',
+        grade: 92,
+        startedAt: daysAgo(88),
+        expiresAt: daysAgo(74),
+        completedAt: daysAgo(80),
+        unitsCompleted: 4,
+      },
+      {
+        blockId: 'b2',
+        status: 'completed',
+        grade: 89,
+        startedAt: daysAgo(70),
+        expiresAt: daysAgo(56),
+        completedAt: daysAgo(62),
+        unitsCompleted: 4,
+      },
+      {
+        blockId: 'b3',
+        status: 'completed',
+        grade: 95,
+        startedAt: daysAgo(50),
+        expiresAt: daysAgo(36),
+        completedAt: daysAgo(40),
+        unitsCompleted: 3,
       },
     ],
   },

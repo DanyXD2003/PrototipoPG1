@@ -227,3 +227,39 @@ export interface SavedSearch {
   resultCount: number
   lastRunAt: string
 }
+
+export type NotificationType =
+  | 'block_active'
+  | 'block_expiring'
+  | 'block_graded'
+  | 'course_completed'
+  | 'talent_match'
+  | 'new_enrollment'
+
+export interface AppNotification {
+  id: string
+  type: NotificationType
+  title: string
+  message: string
+  createdAt: string
+  read: boolean
+  link?: string
+}
+
+export interface NotificationPreferences {
+  platform_block_active: boolean
+  platform_block_expiring: boolean
+  platform_block_graded: boolean
+  platform_course_completed: boolean
+  platform_talent_match: boolean
+  platform_new_enrollment: boolean
+  email_block_expiring: boolean
+  email_course_completed: boolean
+  email_talent_match: boolean
+  email_newsletter: boolean
+}
+
+export interface CourseVisibility {
+  courseId: string
+  isPublic: boolean
+}
