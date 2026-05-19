@@ -3,6 +3,8 @@
 > Este archivo es leído automáticamente por Claude Code y otros agentes al iniciar una sesión.
 > La carpeta `docs/` es la memoria del proyecto. **Siempre consultarla antes de implementar.**
 
+> **Estado del proyecto:** Mockup completo — 7 fases, 51 pantallas implementadas y auditadas. No hay fases pendientes. Cualquier trabajo nuevo es mantenimiento o mejoras incrementales.
+
 ---
 
 ## El proyecto
@@ -124,15 +126,18 @@ python3 .claude/skills/ui-ux-pro-max/scripts/search.py "hooks performance state"
 ```
 src/
 ├── components/
-│   ├── ui/              # Primitivos reutilizables: Button, Card, Badge, Input
-│   ├── layout/          # PublicLayout, StudentLayout, CreatorLayout, etc.
-│   └── [feature]/       # Componentes por feature
+│   ├── ui/              # Primitivos reutilizables: Button, Card, Badge, Input, EmptyState, SettingsTabs
+│   ├── layout/          # PublicLayout, StudentLayout, CreatorLayout, TalentLayout, AdminLayout, etc.
+│   ├── auth/            # ProtectedRoute, CreatorRoute, TalentRoute, AdminRoute
+│   └── [feature]/       # Componentes por feature: course/, learning/, creator/, talent/
 ├── pages/
 │   ├── public/          # Fase 1 — vitrina
 │   ├── auth/            # Fase 2 — autenticación
 │   ├── student/         # Fase 3 — aprendizaje
 │   ├── creator/         # Fase 4 — panel creador
 │   ├── talent/          # Fase 5 — reclutamiento
+│   ├── notifications/   # Fase 6 — centro de notificaciones
+│   ├── settings/        # Fase 6 — configuración de cuenta
 │   └── admin/           # Fase 7 — administración
 ├── data/                # Mock data .ts
 ├── types/               # Interfaces TypeScript

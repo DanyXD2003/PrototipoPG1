@@ -226,14 +226,14 @@ Antes de las fases, el sistema necesita estos layouts compartidos. **Deben crear
 
 | Fase | Pantallas | Estado |
 |---|---|---|
-| 1 — Vitrina pública | 7 | ⬜ Pendiente |
-| 2 — Identidad y acceso | 8 | ⬜ Pendiente |
-| 3 — Experiencia de aprendizaje | 10 | ⬜ Pendiente |
-| 4 — Panel creador | 10 | ⬜ Pendiente |
-| 5 — Conexión laboral | 5 | ⬜ Pendiente |
-| 6 — Detalles y polish | 6 | ⬜ Pendiente |
-| 7 — Panel admin | 5 | ⬜ Pendiente |
-| **Total** | **51** | |
+| 1 — Vitrina pública | 7 | ✅ Completo |
+| 2 — Identidad y acceso | 8 | ✅ Completo |
+| 3 — Experiencia de aprendizaje | 10 | ✅ Completo |
+| 4 — Panel creador | 10 | ✅ Completo |
+| 5 — Conexión laboral | 5 | ✅ Completo |
+| 6 — Detalles y polish | 6 | ✅ Completo |
+| 7 — Panel admin | 5 | ✅ Completo |
+| **Total** | **51** | ✅ **Mockup completo** |
 
 ---
 
